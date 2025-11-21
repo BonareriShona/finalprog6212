@@ -1,0 +1,69 @@
+﻿@model CMCSWeb.Models.ReportParameters
+
+@{
+    ViewData["Title"] = "Generate Reports";
+}
+
+<h2>Generate Claims Report</h2>
+
+<form asp-action="Generate" method="post">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" type="date" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" type="date" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Verified">Verified</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-download"></i> Generate PDF Report
+        </button>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+<!-- Quick Action Buttons -->
+<div class="mt-4">
+    <h4>Quick Reports</h4>
+    <div class="row">
+        <div class="col-md-3">
+            <form asp-action="Generate" method="post">
+                <input type="hidden" name="ReportType" value="Approved" />
+                <button type="submit" class="btn btn-success btn-block">
+                    Approved Claims Report
+                </button>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form asp-action="Generate" method="post">
+                <input type="hidden" name="StartDate" value="@DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd")" />
+                <input type="hidden" name="EndDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                <button type="submit" class="btn btn-info btn-block">
+                    Last 7 Days Report
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
